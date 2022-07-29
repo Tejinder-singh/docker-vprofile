@@ -5,17 +5,19 @@ pipeline {
 	tools {
         maven "maven3"
     }
-*/	
-   /* environment {
+	
+     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
-        NEXUS_REPOSITORY = "vprofile-release"
-	NEXUS_REPO_ID    = "vprofile-release"
+        NEXUS_URL = "18.207.97.112:8081"
+        NEXUS_REPOSITORY = "my-docker-repo"
+	NEXUS_REPO_ID    = "my-docker-repo"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
         ARTVERSION = "${env.BUILD_ID}"
+	imageName = "vprofile"
+	DockerImage = ''
     }
-*/	
+	
     stages{
         
         stage('BUILD'){
@@ -52,7 +54,13 @@ pipeline {
                 }
             }
         }
-	    
+	 stage('Build Image'){
+	    steps {
+		    script {
+		           dockerImage = docker.build imageName
+		           }		    
+		    }   
+	      }
         	    
 
        /* stage("Publish to Nexus Repository Manager") {
